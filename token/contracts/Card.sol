@@ -21,9 +21,9 @@ contract MakeCard {
     
     mapping (unit256 => card) IDtoCardMap;
 
-    event Transfer(address _from, address _to, uint256 _value, card senderCard); // Card Trade event
+    event Transfer(address _from, address _to, card senderCard); // Card Trade event
 
-    event Trade(address _from, address _to, uint256 _value, card senderCard, card recieverCard); // Card Trade event
+    event Trade(address _from, address _to, card senderCard, card receiverCard); // Card Trade event
 
     //  Called automatically when the contract is created
     constructor() public {
@@ -53,12 +53,12 @@ contract MakeCard {
         // validate transfer, make sure the sender owns the card they want to send
         require(checkIfOwns(cardID, _sender), "Must own a card to send it");
 
-        // increment and decrement the sender and recievers card balance respectively
+        // increment and decrement the sender and receivers card balance respectively
         balances[_sender].sub(1);
-        balances[_reciever].add(1);
+        balances[_receiver].add(1);
 
-        // add card to reciever
-        allCards[_reciever] += IDtoCardMap[cardID];
+        // add card to receiver
+        allCards[_receiver] += IDtoCardMap[cardID];
         // remove the card from the sender 
         removeCard(cardID, _sender);
         // complete card transfer and call event to record the log
@@ -66,5 +66,24 @@ contract MakeCard {
         return true;
     }
 
+function tradeCard(address _receiver, uint256 senderCardID, uint256 receiverCardID) public returns(bool sufficient) {
+        // validate transfer, make sure the sender has enough cards to send
+        require(checkIfOwns(senderCardID, msg.sender), "Sender must own a card to send it");
+        require(checkIfOwns(receiverCardID, _receiver), "Receiver must own a card to send it");
 
+        // send the cards to be traded to the sender and receiver
+        sendCard(_receiver, msg.sender, senderCardID);
+        sendCard(msg.sender, _receiver, receiverCardID);
+
+        // emit the Trade event
+        emit Trade(msg.sender, _receiver, IDtoCardMap[senderCardID], IDtoCardMap[receiverCardID]);            
+
+        // complete card transfer and call event to record the log
+        return true;
+    }
+
+    function getTotalNumOfCards(address _addr) public view returns(uint) { 
+        //Returns the total number of cards that are associated with the address
+        return balances[_addr];
+    } 
 }
