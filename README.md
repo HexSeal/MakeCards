@@ -18,10 +18,10 @@ A commemoration for the students of a silly little coding school.
 ![img/ownership.png](img/ownership.png)
 
 ## Specifics
+### Cards
 For example we can have a common card that represents a (fictitious) student named Momar Magoo [beginner]  with the abilities “Can Print ‘Hello World’”, which could be used in battle. 
 
 If the card wins in a battle, or is upgraded, can become Momar Magoo [advanced] with the abilities “Efficient Concurrent operations”
-### Cards
 
 ### Trading
 Users will be able to trade the cards they have with other users to get cards that they want to build a stronger team. 
