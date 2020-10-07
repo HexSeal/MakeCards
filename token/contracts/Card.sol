@@ -49,5 +49,22 @@ contract MakeCard {
         }
     }
     
-    
+    function sendCard(address _receiver, address _sender, uint256 cardID) public returns(bool sufficient) {
+        // validate transfer, make sure the sender owns the card they want to send
+        require(checkIfOwns(cardID, _sender), "Must own a card to send it");
+
+        // increment and decrement the sender and recievers card balance respectively
+        balances[_sender].sub(1);
+        balances[_reciever].add(1);
+
+        // add card to reciever
+        allCards[_reciever] += IDtoCardMap[cardID];
+        // remove the card from the sender 
+        removeCard(cardID, _sender);
+        // complete card transfer and call event to record the log
+        emit Transfer(_sender, _receiver, _amount, IDtoCardMap[cardID]);            
+        return true;
+    }
+
+
 }
