@@ -1,5 +1,5 @@
 # MakeCards 
-## An Ethereum cryptocurrency based on code using a trading card game model
+> An Ethereum cryptocurrency based on code using a trading card game model
 
 A commemoration for the students of a silly little coding school.
 
