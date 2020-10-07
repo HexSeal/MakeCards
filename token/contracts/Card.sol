@@ -31,5 +31,23 @@ contract MakeCard {
         balances[msg.sender] = 0
     }
 
+    // function checks if the address owns the card
+    function checkIfOwns(uint256 cardID, address addr) public returns(bool sufficient) {
+        for (uint i = 0; i < len(allCards[msg.sender]); i++) {
+            if (allCards[addr][i] == cardID) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    function removeCard(uint256 cardID, address addr) public {
+        for (uint i = 0; i < len(allCards[msg.sender]); i++) {
+            if (allCards[addr][i] == cardID) {
+                delete allCards[addr][i]
+            }
+        }
+    }
+    
     
 }
